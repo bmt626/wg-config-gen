@@ -16,7 +16,7 @@ fi
 
 if [[ $# -ne 1 ]]; then
     echo "please supply the name of device to generate a config for"
-    echo "usage: wireguard_qr_conrig_gen.sh my_iphone"
+    echo "usage: wireguard_qr_config_gen.sh my_iphone"
     exit 3
 fi
 
@@ -33,10 +33,18 @@ pubkey=$(cat /tmp/$1_publickey)
 read -p "Enter client addess /netmask (172.16.16.0/24): " netaddress
 read -p "Enter DNS (8.8.8.8,1.1.1.1): " dns
 dns="${dns:=8.8.8.8,1.1.1.1}"
-read -p "Enter wireguard servers publickey: " wgpubkey
+if [[ -z "${WG_PUBKEY}" ]]; then
+  read -p "Enter wireguard servers publickey: " wgpubkey
+else
+  wgpubkey="${WG_PUBKEY}"
+fi
 read -p "Enter allowed IPs (0.0.0.0/0 for full tunnel): " allowedip
 allowedip="${allowedip:=0.0.0.0/0}"
-read -p "Enter wireguard server endpoint (IP/HOSTNAME:PORT): " endpoint
+if [[ -z "${WG_ENDPOINT}" ]]; then
+  read -p "Enter wireguard server endpoint (IP/HOSTNAME:PORT): " endpoint
+else
+  endpoint="${WG_ENDPOINT}"
+fi
 
 echo "[Interface]" >> /tmp/$1.conf
 echo "PrivateKey = $pubkey" >> /tmp/$1.conf
