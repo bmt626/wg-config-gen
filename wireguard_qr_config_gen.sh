@@ -28,7 +28,6 @@ echo "Creating publickey for $1"
 wg pubkey < /tmp/$1_privatekey > /tmp/$1_publickey
 
 privkey=$(cat /tmp/$1_privatekey)
-pubkey=$(cat /tmp/$1_publickey)
 
 read -p "Enter client addess /netmask (172.16.16.0/24): " netaddress
 read -p "Enter DNS (8.8.8.8,1.1.1.1): " dns
