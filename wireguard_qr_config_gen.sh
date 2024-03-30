@@ -47,7 +47,7 @@ else
 fi
 
 echo "[Interface]" >> /tmp/$1.conf
-echo "PrivateKey = $pubkey" >> /tmp/$1.conf
+echo "PrivateKey = $privkey" >> /tmp/$1.conf
 echo "Address = $netaddress" >> /tmp/$1.conf
 echo "DNS = $dns" >> /tmp/$1.conf
 echo "" >> /tmp/$1.conf
