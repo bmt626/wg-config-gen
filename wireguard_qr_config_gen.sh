@@ -1,5 +1,7 @@
 #! /bin/bash
 
+source .env
+
 if ! command -v wg &> /dev/null
 then
     echo "wg could not be found"
@@ -30,15 +32,27 @@ wg pubkey < /tmp/$1_privatekey > /tmp/$1_publickey
 privkey=$(cat /tmp/$1_privatekey)
 
 read -p "Enter client addess /netmask (172.16.16.0/24): " netaddress
-read -p "Enter DNS (8.8.8.8,1.1.1.1): " dns
-dns="${dns:=8.8.8.8,1.1.1.1}"
+
+if [[ -z "${WG_DNS}" ]]; then
+  read -p "Enter DNS (8.8.8.8,1.1.1.1): " dns
+  dns="${dns:=8.8.8.8,1.1.1.1}"
+else
+  dns="${WG_DNS}"
+fi
+
 if [[ -z "${WG_PUBKEY}" ]]; then
   read -p "Enter wireguard servers publickey: " wgpubkey
 else
   wgpubkey="${WG_PUBKEY}"
 fi
-read -p "Enter allowed IPs (0.0.0.0/0 for full tunnel): " allowedip
-allowedip="${allowedip:=0.0.0.0/0}"
+
+if [[ -z "${WG_ALLOWEDIP}" ]]; then
+  read -p "Enter allowed IPs (0.0.0.0/0 for full tunnel): " allowedip
+  allowedip="${allowedip:=0.0.0.0/0}"
+else
+  allowedip="${WG_ALLOWEDIP}"
+fi
+
 if [[ -z "${WG_ENDPOINT}" ]]; then
   read -p "Enter wireguard server endpoint (IP/HOSTNAME:PORT): " endpoint
 else
