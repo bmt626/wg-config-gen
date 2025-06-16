@@ -68,9 +68,9 @@ echo "[Peer]" >> /tmp/$1.conf
 echo "PublicKey = $wgpubkey" >> /tmp/$1.conf
 echo "AllowedIPs = $allowedip" >> /tmp/$1.conf
 echo "Endpoint = $endpoint" >> /tmp/$1.conf
+echo "PersistentKeepalive = 15" >> /tmp/$1.conf
+# echo "PresharedKey = {MY_PRE_SHARED_KEY}" >> /tmp/$1.conf
 
-# PersistentKeepalive = 15
-# PresharedKey = {MY_PRE_SHARED_KEY}
 echo "Saving QR Code to /tmp/$1.png"
 qrencode -t png -o /tmp/$1.png -r /tmp/$1.conf
 echo "Here is your wireguard config qrcode"
